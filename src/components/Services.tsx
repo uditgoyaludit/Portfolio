@@ -1,5 +1,5 @@
 import React from 'react';
-import { Database, Globe, PenTool } from 'lucide-react';
+import { Database, Globe, PenTool, Link, Cloud, Server } from 'lucide-react';
 
 export function Services() {
   const services = [
@@ -17,6 +17,21 @@ export function Services() {
       icon: <PenTool className="w-12 h-12 text-blue-600" />,
       title: 'System Design',
       description: 'Architecting efficient and scalable systems that meet business needs.'
+    },
+    {
+      icon: <Link className="w-12 h-12 text-blue-600" />,
+      title: 'API Development & Integration',
+      description: 'Designing and implementing secure, efficient APIs and integrating third-party services seamlessly.'
+    },
+    {
+      icon: <Cloud className="w-12 h-12 text-blue-600" />,
+      title: 'Cloud Infrastructure & DevOps',
+      description: 'Building and managing scalable, reliable cloud solutions with CI/CD pipelines.'
+    },
+    {
+      icon: <Server className="w-12 h-12 text-blue-600" />,
+      title: 'Database Design & Optimization',
+      description: 'Designing efficient database schemas and optimizing queries for better performance.'
     }
   ];
 
