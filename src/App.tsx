@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Home } from './components/Home';
@@ -8,8 +8,46 @@ import { Projects } from './components/Projects';
 import { Contact } from './components/Contact';
 import { Blog } from './components/Blog';
 import { Admin } from './components/Admin';
+import { supabase } from './lib/supabase';
+
+const API_KEY ="RVBQ9YY40HY7"; // Access the API key from the environment
 
 function App() {
+  useEffect(() => {
+    // Function to log visit details to Supabase
+    const logVisit = async () => {
+      try {
+        // Fetch the IP address of the user
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
+        const ipAddress = ipData.ip;
+
+        // Fetch the current time in Delhi, India timezone using TimeZoneDB API
+        const timeResponse = await fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=${API_KEY}&format=json&by=zone&zone=Asia/Kolkata`);
+        const timeData = await timeResponse.json();
+        const delhiTime = timeData.formatted; // Time in the desired timezone (e.g., 2025-01-26 15:45:25)
+
+        // Insert the visit details into Supabase
+        const { data: insertData, error } = await supabase
+          .from('visits')
+          .insert({
+            ip_address: ipAddress,
+            visit_time: delhiTime, // Time in the desired timezone
+          });
+
+        if (error) {
+          console.error('Error logging visit:', error);
+        } else {
+          console.log('Visit logged successfully:', insertData);
+        }
+      } catch (err) {
+        console.error('Failed to fetch IP or log visit:', err);
+      }
+    };
+
+    logVisit();
+  }, []);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -38,7 +76,6 @@ function App() {
                 <Link to="/services" className="text-gray-700 hover:text-blue-600 transition-colors">Services</Link>
                 <Link to="/about" className="text-gray-700 hover:text-blue-600 transition-colors">About me</Link>
                 <Link to="/projects" className="text-gray-700 hover:text-blue-600 transition-colors">Projects</Link>
-                {/* <Link to="/blog" className="text-gray-700 hover:text-blue-600 transition-colors">Blog</Link> */}
                 <Link to="/admin" className="text-gray-700 hover:text-blue-600 transition-colors">Admin</Link>
                 <Link 
                   to="/contact" 
@@ -56,7 +93,6 @@ function App() {
                 <Link to="/services" className="text-gray-700 hover:text-blue-600 transition-colors" onClick={toggleMenu}>Services</Link>
                 <Link to="/about" className="text-gray-700 hover:text-blue-600 transition-colors" onClick={toggleMenu}>About me</Link>
                 <Link to="/projects" className="text-gray-700 hover:text-blue-600 transition-colors" onClick={toggleMenu}>Projects</Link>
-                {/* <Link to="/blog" className="text-gray-700 hover:text-blue-600 transition-colors" onClick={toggleMenu}>Blog</Link> */}
                 <Link to="/admin" className="text-gray-700 hover:text-blue-600 transition-colors" onClick={toggleMenu}>Admin</Link>
                 <Link 
                   to="/contact" 
