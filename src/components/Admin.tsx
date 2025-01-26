@@ -64,7 +64,7 @@ export function Admin() {
       const { data, error } = await supabase
         .from('visits')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('visit_time', { ascending: false });
       if (error) throw error;
       setVisits(data || []);
     } catch (error) {
@@ -137,7 +137,7 @@ export function Admin() {
             <div key={visit.id} className="p-4 border-2 border-gray-100 rounded-lg bg-white">
               <p className="text-gray-900">IP: {visit.ip_address}</p>
               <p className="text-gray-600 text-sm">
-                {new Date(visit.created_at).toLocaleString()}
+                {new Date(visit.visit_time).toLocaleString()}
               </p>
             </div>
           ))}
