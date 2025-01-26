@@ -18,7 +18,7 @@ export function Projects() {
       title: "Attendance Management System",
       description: "Web-based system for tracking attendance records",
       image: "p1.png",
-      link: "#"
+      link: "https://github.com/uditgoyaludit/ERP-System"
     }
   ];
 
